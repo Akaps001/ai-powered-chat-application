@@ -6,7 +6,7 @@ A robust **Node.js microservice** built with **Express.js**, designed for scalab
 
 ### Tech Stack
 -   **Runtime**: Node.js (v20+)
--   **Framework**: Express.js 
+-   **Framework**: Express.js 5.x
 -   **Database**: MongoDB (Mongoose ORM)
 -   **Caching**: Redis (Service + Client)
 -   **AI**: OpenAI API
