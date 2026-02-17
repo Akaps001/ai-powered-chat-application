@@ -18,9 +18,10 @@ const envSchema = z.object({
     REDIS_PORT: z.string().transform(Number).default('6379'),
 
     // OpenAI
-    OPENAI_API_KEY: z.string().min(1, "OpenAI API Key is required"),
+    MOCK_OPENAI: z.string().transform((val) => val === 'true').default('false'),
+    OPENAI_API_KEY: z.string().min(1, "OpenAI API Key is required").optional(),
 
-    // JWT (Assuming it exists based on auth controller logic)
+    // JWT
     JWT_SECRET: z.string().min(1, "JWT Secret is required").optional().default('secret'),
 });
 
