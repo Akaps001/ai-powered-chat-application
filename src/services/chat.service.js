@@ -8,9 +8,25 @@ class ChatService extends BaseService {
         this.openai = openai;
     }
 
-    async createChat(userId, messageContent, model = 'gpt-4') {
+    async createChat(userId, messageContent, model = 'gpt-3.5-turbo') {
         // 1. Create initial message object
         const userMessage = { role: 'user', content: messageContent };
+
+
+
+        // Mock OpenAI response for testing if enabled
+        if (process.env.MOCK_OPENAI === 'true') {
+            const chatData = {
+                user: userId,
+                messages: [
+                    userMessage,
+                    { role: 'assistant', content: 'This is a mocked response because MOCK_OPENAI is enabled.' }
+                ],
+                model: model,
+                title: messageContent.substring(0, 30) + '...'
+            };
+            return await this.repository.create(chatData);
+        }
 
         // 2. Call OpenAI API
         try {
@@ -42,6 +58,13 @@ class ChatService extends BaseService {
         if (!chat) throw new Error('Chat not found');
 
         const userMessage = { role: 'user', content: messageContent };
+
+        if (process.env.MOCK_OPENAI === 'true') {
+            chat.messages.push(userMessage);
+            chat.messages.push({ role: 'assistant', content: 'This is a mocked response (continue) because MOCK_OPENAI is enabled.' });
+            await chat.save();
+            return chat;
+        }
 
         // Add user message to history for context
         const messages = [...chat.messages, userMessage].map(m => ({

@@ -25,7 +25,7 @@ const chatSchema = new mongoose.Schema({
     messages: [messageSchema],
     model: {
         type: String,
-        default: 'gpt-4',
+        default: 'gpt-3.5-turbo',
     },
     title: {
         type: String,

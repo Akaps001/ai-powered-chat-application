@@ -1,0 +1,6 @@
+export default {
+    transform: {},
+    setupFiles: ['./tests/setup.js'],
+    testEnvironment: 'node',
+    verbose: true,
+};

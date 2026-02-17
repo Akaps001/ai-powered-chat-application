@@ -71,4 +71,57 @@ Since this app requires **persistent services** (MongoDB, Redis), verify your ho
 
 **Recommended Providers:**
 -   **Railway / Render / Fly.io**: Easy configuration for Node.js + Redis + Mongo.
--   **Docker**: Containerize for AWS/GCP/Azure.
+-   **Docker**: Containerized deployment is now supported.
+
+### Using Docker
+
+1.  **Build and run with Docker Compose**
+    ```bash
+    docker-compose up --build
+    ```
+    This will start the Application, MongoDB, and Redis containers.
+    The API will be available at `http://localhost:3000`.
+
+## 🚀 Deployment
+
+### Deploy to Render
+1.  Host your code on GitHub.
+2.  Sign up for [Render](https://render.com/).
+3.  Click **New +** -> **Blueprint** -> Connect your repo.
+4.  Render will auto-detect `render.yaml`.
+5.  **Critical**: You must manually add these Environment Variables in the Render Dashboard:
+    - `MONGODB_URI`: Connection string from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+    - `OPENAI_API_KEY`: Your OpenAI Key (Optional if Mock Mode is true).
+    - `JWT_SECRET`: A strong secret key.
+    - `MOCK_OPENAI`: Set to `true` for portfolio/demo mode (avoids API costs).
+
+### Database Setup (MongoDB Atlas)
+Since Render does not provide managed MongoDB:
+1.  Create a free account on MongoDB Atlas.
+2.  Create a cluster (Shared - M0 Sandbox).
+3.  In "Network Access", allow access from anywhere (`0.0.0.0/0`) or find Render's outgoing IPs.
+4.  Get the Connection String (driver Node.js 5.5+).
+
+## 🧪 Quality Assurance
+
+### Testing
+Run the automated test suite (Jest + Supertest):
+```bash
+npm test
+```
+
+### Linting & Formatting
+Check for code quality issues:
+```bash
+npm run lint
+```
+
+Fix automatically fixable issues:
+```bash
+npm run lint:fix
+```
+
+Format code with Prettier:
+```bash
+npm run format
+```
