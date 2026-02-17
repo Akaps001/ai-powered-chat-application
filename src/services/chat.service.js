@@ -1,6 +1,7 @@
 import BaseService from './base.service.js';
 import { chatRepository } from '../repositories/index.js';
 import openai from '../config/openai.js';
+import { env } from '../config/env.js';
 
 class ChatService extends BaseService {
     constructor() {
@@ -15,7 +16,7 @@ class ChatService extends BaseService {
 
 
         // Mock OpenAI response for testing if enabled
-        if (process.env.MOCK_OPENAI === 'true') {
+        if (env.MOCK_OPENAI || !this.openai) {
             const chatData = {
                 user: userId,
                 messages: [
@@ -59,7 +60,7 @@ class ChatService extends BaseService {
 
         const userMessage = { role: 'user', content: messageContent };
 
-        if (process.env.MOCK_OPENAI === 'true') {
+        if (env.MOCK_OPENAI || !this.openai) {
             chat.messages.push(userMessage);
             chat.messages.push({ role: 'assistant', content: 'This is a mocked response (continue) because MOCK_OPENAI is enabled.' });
             await chat.save();
