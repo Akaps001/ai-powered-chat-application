@@ -58,6 +58,23 @@ class ChatController {
         }
         res.json(chat);
     }
+
+    /**
+     * Delete a specific chat by ID.
+     * Includes a security check to ensure users can only delete their own chats.
+     */
+    async deleteChat(req, res) {
+        const chat = await chatService.findById(req.params.id);
+        if (!chat) {
+            return res.status(404).json({ message: 'Chat not found' });
+        }
+        // Security Check: Verify that the requesting user owns this chat
+        if (chat.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+        await chatService.delete(req.params.id);
+        res.json({ message: 'Chat deleted successfully' });
+    }
 }
 
 export default new ChatController();

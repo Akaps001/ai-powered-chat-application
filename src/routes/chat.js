@@ -13,5 +13,6 @@ router.post('/', validate(createChatSchema), chatController.createChat);
 router.post('/:id/messages', validate(continueChatSchema), chatController.continueChat);
 router.get('/', chatController.getUserChats);
 router.get('/:id', chatController.getChatById);
+router.delete('/:id', chatController.deleteChat);
 
 export default router;
